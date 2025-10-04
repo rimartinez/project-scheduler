@@ -1,0 +1,9 @@
+<!-- shadcn/ui Alert Component -->
+<div class="alert alert-{{ variant }} {{ class }}">
+    {% if title %}
+    <h5 class="alert-title">{{ title }}</h5>
+    {% endif %}
+    {% if description %}
+    <div class="alert-description">{{ description }}</div>
+    {% endif %}
+</div>

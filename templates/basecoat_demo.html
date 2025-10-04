@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Basecoat UI Demo - Employee-Client Scheduling Service{% endblock %}
+{% block page_title %}Basecoat UI Demo{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Introduction -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h2 class="text-2xl font-bold text-foreground mb-4">Basecoat UI Components</h2>
+        <p class="text-muted-foreground mb-4">
+            Basecoat UI is a lightweight, framework-agnostic UI component library built with Tailwind CSS. 
+            It provides clean, accessible components that work seamlessly with Django.
+        </p>
+        <div class="flex space-x-4">
+            <a href="https://basecoatui.com" target="_blank" class="btn btn-primary">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Basecoat UI Docs
+            </a>
+            <a href="{% url 'shadcn_demo' %}" class="btn btn-secondary">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Compare with shadcn-django
+            </a>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Buttons</h3>
+        <div class="flex flex-wrap gap-4">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-secondary">Secondary Button</button>
+            <button class="btn btn-success">Success Button</button>
+            <button class="btn btn-warning">Warning Button</button>
+            <button class="btn btn-danger">Danger Button</button>
+            <button class="btn btn-info">Info Button</button>
+            <button class="btn btn-outline">Outline Button</button>
+            <button class="btn btn-ghost">Ghost Button</button>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-4">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary">Default</button>
+            <button class="btn btn-primary btn-lg">Large</button>
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Cards</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Basic Card</h4>
+                    <p class="card-description">A simple card with header and content</p>
+                </div>
+                <div class="card-content">
+                    <p class="text-muted-foreground">This is the card content area where you can place any content.</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary btn-sm">Action</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="font-semibold text-foreground mb-2">Simple Card</h4>
+                    <p class="text-muted-foreground">A card without header and footer sections.</p>
+                </div>
+            </div>
+            
+            <div class="card border-destructive">
+                <div class="card-header">
+                    <h4 class="card-title text-destructive">Error Card</h4>
+                </div>
+                <div class="card-content">
+                    <p class="text-muted-foreground">This card has a destructive border to indicate an error state.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forms -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Form Elements</h3>
+        <form class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" placeholder="Enter your first name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" placeholder="Enter your last name">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Role</label>
+                <select class="form-select">
+                    <option>Select a role</option>
+                    <option>Employee</option>
+                    <option>Supervisor</option>
+                    <option>Client</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-textarea" rows="4" placeholder="Enter your message"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-checkbox-label">
+                    <input type="checkbox" class="form-checkbox">
+                    <span class="ml-2">I agree to the terms and conditions</span>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-radio-label">
+                    <input type="radio" name="notification" class="form-radio" value="email">
+                    <span class="ml-2">Email notifications</span>
+                </label>
+                <label class="form-radio-label">
+                    <input type="radio" name="notification" class="form-radio" value="sms">
+                    <span class="ml-2">SMS notifications</span>
+                </label>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Alerts -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Alerts</h3>
+        <div class="space-y-4">
+            <div class="alert alert-success">
+                <div class="alert-icon">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4 class="alert-title">Success!</h4>
+                    <p class="alert-description">Your schedule has been created successfully.</p>
+                </div>
+            </div>
+            
+            <div class="alert alert-warning">
+                <div class="alert-icon">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4 class="alert-title">Warning</h4>
+                    <p class="alert-description">Please review your schedule before submitting.</p>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger">
+                <div class="alert-icon">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="alert-content">
+                    <h4 class="alert-title">Error</h4>
+                    <p class="alert-description">There was an error processing your request.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Badges</h3>
+        <div class="flex flex-wrap gap-4">
+            <span class="badge badge-primary">Primary</span>
+            <span class="badge badge-secondary">Secondary</span>
+            <span class="badge badge-success">Success</span>
+            <span class="badge badge-warning">Warning</span>
+            <span class="badge badge-danger">Danger</span>
+            <span class="badge badge-info">Info</span>
+            <span class="badge badge-outline">Outline</span>
+        </div>
+    </div>
+
+    <!-- Tables -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Tables</h3>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Employee</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-secondary">View</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Supervisor</td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-secondary">View</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bob Johnson</td>
+                        <td>Client</td>
+                        <td><span class="badge badge-danger">Inactive</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-secondary">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Comparison with shadcn-django -->
+    <div class="bg-card border border-border rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-foreground mb-4">Basecoat UI vs shadcn-django</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-semibold text-foreground mb-3">Basecoat UI Advantages</h4>
+                <ul class="space-y-2 text-sm text-muted-foreground">
+                    <li>✅ CSS-only, no JavaScript required</li>
+                    <li>✅ Framework-agnostic</li>
+                    <li>✅ Lightweight and fast</li>
+                    <li>✅ Better Django integration</li>
+                    <li>✅ Clean, readable markup</li>
+                    <li>✅ Built-in accessibility</li>
+                    <li>✅ Dark mode ready</li>
+                    <li>✅ MIT licensed</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-foreground mb-3">shadcn-django Advantages</h4>
+                <ul class="space-y-2 text-sm text-muted-foreground">
+                    <li>✅ Copy-paste components</li>
+                    <li>✅ Highly customizable</li>
+                    <li>✅ Alpine.js integration</li>
+                    <li>✅ Modern design system</li>
+                    <li>✅ Component variants</li>
+                    <li>✅ TypeScript support</li>
+                    <li>✅ Active community</li>
+                    <li>✅ React-inspired patterns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

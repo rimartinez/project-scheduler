@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load shadcn_ui %}
+
+{% block title %}Dashboard - Employee-Client Scheduling Service{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">
+            Welcome back, {{ user.get_full_name }}!
+        </h1>
+        <p class="mt-2 text-gray-600">
+            Here's what's happening with your schedules today.
+        </p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {% card title="Total Schedules" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ total_schedules }}</div></div>' %}
+        
+        {% card title="Approved" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ approved_schedules }}</div></div>' %}
+        
+        {% if dashboard_type == 'employee' %}
+        {% card title="Pending" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ pending_schedules }}</div></div>' %}
+        
+        {% card title="Rejected" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ rejected_schedules }}</div></div>' %}
+        {% elif dashboard_type == 'supervisor' %}
+        {% card title="Pending Approvals" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ pending_approvals }}</div></div>' %}
+        
+        {% card title="Rejected" content='<div class="flex items-center"><div class="text-2xl font-semibold text-gray-900">{{ rejected_schedules }}</div></div>' %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Schedules Card -->
+        {% card title="Recent Schedules" content='<div class="space-y-4">{% for schedule in recent_schedules %}<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"><div class="flex-1"><p class="text-sm font-medium text-gray-900">{% if dashboard_type == "employee" %}{{ schedule.client.name }}{% elif dashboard_type == "supervisor" %}{{ schedule.employee.get_full_name }} - {{ schedule.client.name }}{% else %}{{ schedule.employee.get_full_name }}{% endif %}</p><p class="text-sm text-gray-500">{{ schedule.start_date|date:"M d, Y" }} at {{ schedule.start_time|time:"g:i A" }}</p></div><div class="flex items-center space-x-2">{% badge schedule.get_status_display variant=schedule.status %}</div></div>{% endfor %}</div>' %}
+        
+        <!-- Hours Breakdown Card -->
+        {% if dashboard_type == 'employee' and hours_by_client %}
+        {% card title="Hours by Client" content='<div class="space-y-3">{% for client, hours in hours_by_client.items %}<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-900">{{ client }}</span><span class="text-sm text-gray-500">{{ hours }} hours</span></div>{% endfor %}</div>' %}
+        {% elif dashboard_type == 'client' and hours_by_employee %}
+        {% card title="Hours by Employee" content='<div class="space-y-3">{% for employee, hours in hours_by_employee.items %}<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-900">{{ employee }}</span><span class="text-sm text-gray-500">{{ hours }} hours</span></div>{% endfor %}</div>' %}
+        {% elif dashboard_type == 'supervisor' and employee_stats %}
+        {% card title="Employee Performance" content='<div class="space-y-3">{% for stat in employee_stats %}<div class="flex items-center justify-between"><span class="text-sm font-medium text-gray-900">{{ stat.employee__first_name }} {{ stat.employee__last_name }}</span><div class="flex space-x-4 text-sm text-gray-500"><span>{{ stat.total_schedules }} total</span><span>{{ stat.approved_schedules }} approved</span><span>{{ stat.pending_schedules }} pending</span></div></div>{% endfor %}</div>' %}
+        {% else %}
+        {% card title="No Data Available" content='<div class="text-center py-8"><svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><h3 class="mt-2 text-sm font-medium text-gray-900">No data available</h3><p class="mt-1 text-sm text-gray-500">Data will appear here as schedules are created.</p></div>' %}
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="mt-8">
+        {% card title="Quick Actions" content='<div class="flex flex-wrap gap-4">{% if user.is_employee %}{% button "Create Schedule" variant="primary" icon="plus" %}{% button "View Calendar" variant="secondary" icon="calendar" %}{% elif user.is_supervisor %}{% button "Review Approvals" variant="primary" icon="check" %}{% button "View All Schedules" variant="secondary" icon="calendar" %}{% elif user.is_client %}{% button "View My Schedules" variant="primary" icon="calendar" %}{% endif %}{% button "View Reports" variant="secondary" icon="table" %}</div>' %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+# Django and Core Dependencies
+Django==4.2.7
+django-crispy-forms==2.1
+crispy-tailwind==0.5.0
+django-htmx==1.17.0
+django-extensions==3.2.3
+
+# Database
+psycopg2-binary==2.9.9
+
+# Cache (optional - can use database sessions instead)
+# redis==5.0.1
+
+# Authentication and Security
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.0
+django-cors-headers==4.3.1
+setuptools>=65.0.0
+
+# Utilities
+python-decouple==3.8
+Pillow==10.1.0
+python-dateutil==2.8.2
+
+# Development
+django-debug-toolbar==4.2.0
+pytest-django==4.7.0
+factory-boy==3.3.0

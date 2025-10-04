@@ -1,0 +1,20 @@
+<!-- shadcn/ui Input Component -->
+<div class="form-group">
+    {% if label %}
+    <label for="{{ name }}" class="form-label">{{ label }}</label>
+    {% endif %}
+    
+    <input 
+        type="{{ type }}" 
+        id="{{ name }}" 
+        name="{{ name }}" 
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        value="{{ value }}"
+        {% if required %}required{% endif %}
+    />
+    
+    {% if error %}
+    <p class="form-error">{{ error }}</p>
+    {% endif %}
+</div>

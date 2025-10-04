@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tailwind CSS Demo - Employee-Client Scheduling Service{% endblock %}
+{% block page_title %}Tailwind CSS Demo{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Introduction -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Tailwind CSS Utility-First Approach</h2>
+        <p class="text-gray-600 mb-4">
+            Tailwind CSS is a utility-first CSS framework that provides low-level utility classes 
+            to build custom designs directly in your HTML. It's highly customizable and performant.
+        </p>
+        <div class="flex space-x-4">
+            <a href="https://tailwindcss.com" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Tailwind CSS Docs
+            </a>
+            <a href="{% url 'basecoat_demo' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Compare with Basecoat UI
+            </a>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Buttons</h3>
+        <div class="flex flex-wrap gap-4">
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Primary
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Secondary
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Success
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                Warning
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                Danger
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Outline
+            </button>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-4">
+            <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700">
+                Small
+            </button>
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Default
+            </button>
+            <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Large
+            </button>
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Cards</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h4 class="text-lg font-medium text-gray-900">Basic Card</h4>
+                    <p class="text-sm text-gray-500">A simple card with header and content</p>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-gray-600">This is the card content area where you can place any content.</p>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700">
+                        Action
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="px-6 py-4">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">Simple Card</h4>
+                    <p class="text-gray-600">A card without header and footer sections.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-red-200">
+                    <h4 class="text-lg font-medium text-red-900">Error Card</h4>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-gray-600">This card has a red border to indicate an error state.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forms -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Form Elements</h3>
+        <form class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                    <input type="text" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter your first name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                    <input type="text" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter your last name">
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Enter your email">
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option>Select a role</option>
+                    <option>Employee</option>
+                    <option>Supervisor</option>
+                    <option>Client</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" rows="4" placeholder="Enter your message"></textarea>
+            </div>
+            
+            <div>
+                <label class="flex items-center">
+                    <input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <span class="ml-2 text-sm text-gray-700">I agree to the terms and conditions</span>
+                </label>
+            </div>
+            
+            <div class="space-y-2">
+                <label class="flex items-center">
+                    <input type="radio" name="notification" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" value="email">
+                    <span class="ml-2 text-sm text-gray-700">Email notifications</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="notification" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" value="sms">
+                    <span class="ml-2 text-sm text-gray-700">SMS notifications</span>
+                </label>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Submit
+                </button>
+                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Alerts -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Alerts</h3>
+        <div class="space-y-4">
+            <div class="rounded-md bg-green-50 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-green-800">Success!</h3>
+                        <div class="mt-2 text-sm text-green-700">
+                            <p>Your schedule has been created successfully.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rounded-md bg-yellow-50 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-yellow-800">Warning</h3>
+                        <div class="mt-2 text-sm text-yellow-700">
+                            <p>Please review your schedule before submitting.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rounded-md bg-red-50 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Error</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <p>There was an error processing your request.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Badges</h3>
+        <div class="flex flex-wrap gap-4">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Primary</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Secondary</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Success</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Warning</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Danger</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">Info</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-gray-300 text-gray-700">Outline</span>
+        </div>
+    </div>
+
+    <!-- Tables -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Tables</h3>
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">John Doe</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Employee</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <button class="text-blue-600 hover:text-blue-900">Edit</button>
+                            <button class="text-gray-600 hover:text-gray-900">View</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Jane Smith</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Supervisor</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <button class="text-blue-600 hover:text-blue-900">Edit</button>
+                            <button class="text-gray-600 hover:text-gray-900">View</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Bob Johnson</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Client</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <button class="text-blue-600 hover:text-blue-900">Edit</button>
+                            <button class="text-gray-600 hover:text-gray-900">View</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Tailwind CSS vs Other Libraries</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+                <h4 class="font-semibold text-gray-900 mb-3">Tailwind CSS</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>✅ Utility-first approach</li>
+                    <li>✅ Highly customizable</li>
+                    <li>✅ Small bundle size</li>
+                    <li>✅ No JavaScript required</li>
+                    <li>✅ Excellent performance</li>
+                    <li>✅ Great for custom designs</li>
+                    <li>❌ Steep learning curve</li>
+                    <li>❌ Verbose HTML</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-900 mb-3">Basecoat UI</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>✅ CSS-only components</li>
+                    <li>✅ Clean markup</li>
+                    <li>✅ Django-friendly</li>
+                    <li>✅ Lightweight</li>
+                    <li>✅ Easy to use</li>
+                    <li>✅ Accessible</li>
+                    <li>❌ Limited customization</li>
+                    <li>❌ Fewer components</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-900 mb-3">shadcn-django</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>✅ Copy-paste components</li>
+                    <li>✅ Highly customizable</li>
+                    <li>✅ Modern design</li>
+                    <li>✅ Alpine.js integration</li>
+                    <li>✅ Component variants</li>
+                    <li>✅ Active community</li>
+                    <li>❌ Requires JavaScript</li>
+                    <li>❌ More complex setup</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-900 mb-3">Bootstrap</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>✅ Mature and stable</li>
+                    <li>✅ Extensive documentation</li>
+                    <li>✅ Large community</li>
+                    <li>✅ Many components</li>
+                    <li>✅ Easy to learn</li>
+                    <li>✅ Good for rapid prototyping</li>
+                    <li>❌ Larger bundle size</li>
+                    <li>❌ Less customizable</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

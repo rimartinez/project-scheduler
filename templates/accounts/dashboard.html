@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Employee-Client Scheduling Service{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Welcome Message -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-900">
+            Welcome back, {{ user.get_full_name }}!
+        </h2>
+        <p class="mt-2 text-gray-600">
+            Here's what's happening with your schedules today.
+        </p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Total Schedules</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ total_schedules }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Approved</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ approved_schedules }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if dashboard_type == 'employee' %}
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Pending</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ pending_schedules }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Rejected</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ rejected_schedules }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% elif dashboard_type == 'supervisor' %}
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Pending Approvals</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ pending_approvals }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow border border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Rejected</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ rejected_schedules }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Schedules -->
+        <div class="card">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Recent Schedules</h3>
+            </div>
+            <div class="card-body">
+                {% if recent_schedules %}
+                <div class="space-y-4">
+                    {% for schedule in recent_schedules %}
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-900">
+                                {% if dashboard_type == 'employee' %}
+                                    {{ schedule.client.name }}
+                                {% elif dashboard_type == 'supervisor' %}
+                                    {{ schedule.employee.get_full_name }} - {{ schedule.client.name }}
+                                {% else %}
+                                    {{ schedule.employee.get_full_name }}
+                                {% endif %}
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                {{ schedule.start_date|date:"M d, Y" }} at {{ schedule.start_time|time:"g:i A" }}
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="status-badge status-{{ schedule.status }}">
+                                {{ schedule.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No schedules</h3>
+                    <p class="mt-1 text-sm text-gray-500">Get started by creating a new schedule.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Hours Breakdown -->
+        <div class="card">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">
+                    {% if dashboard_type == 'employee' %}Hours by Client{% elif dashboard_type == 'client' %}Hours by Employee{% else %}Employee Performance{% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if dashboard_type == 'employee' and hours_by_client %}
+                <div class="space-y-3">
+                    {% for client, hours in hours_by_client.items %}
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-900">{{ client }}</span>
+                        <span class="text-sm text-gray-500">{{ hours }} hours</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% elif dashboard_type == 'client' and hours_by_employee %}
+                <div class="space-y-3">
+                    {% for employee, hours in hours_by_employee.items %}
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-900">{{ employee }}</span>
+                        <span class="text-sm text-gray-500">{{ hours }} hours</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% elif dashboard_type == 'supervisor' and employee_stats %}
+                <div class="space-y-3">
+                    {% for stat in employee_stats %}
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-900">
+                            {{ stat.employee__first_name }} {{ stat.employee__last_name }}
+                        </span>
+                        <div class="flex space-x-4 text-sm text-gray-500">
+                            <span>{{ stat.total_schedules }} total</span>
+                            <span>{{ stat.approved_schedules }} approved</span>
+                            <span>{{ stat.pending_schedules }} pending</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No data available</h3>
+                    <p class="mt-1 text-sm text-gray-500">Data will appear here as schedules are created.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-8">
+        <div class="card">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+            </div>
+            <div class="card-body">
+                <div class="flex flex-wrap gap-4">
+                    {% if user.is_employee %}
+                    <a href="{% url 'schedules:create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create Schedule
+                    </a>
+                    <a href="{% url 'schedules:calendar' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        View Calendar
+                    </a>
+                    {% elif user.is_supervisor %}
+                    <a href="{% url 'schedules:approvals' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Review Approvals
+                    </a>
+                    <a href="{% url 'schedules:calendar' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        View All Schedules
+                    </a>
+                    {% elif user.is_client %}
+                    <a href="{% url 'clients:my_schedules' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        View My Schedules
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'reports:index' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load schedule_filters %}
+
+{% block title %}Edit Schedule - Employee-Client Scheduling Service{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Edit Schedule</h1>
+                <p class="mt-2 text-gray-600">Update schedule details for {{ schedule.client.name }}</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'schedules:list' %}" class="btn-secondary">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Schedules
+                </a>
+                <a href="{% url 'schedules:detail' schedule.pk %}" class="btn-secondary">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Details
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Info Card -->
+    <div class="card mb-6">
+        <div class="card-body">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Current Schedule Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <span class="font-medium text-gray-700">Client:</span>
+                    <span class="text-gray-900">{{ schedule.client.name }}</span>
+                </div>
+                <div>
+                    <span class="font-medium text-gray-700">Status:</span>
+                    <span class="badge badge-{{ schedule.status|status_color }}">
+                        {{ schedule.get_status_display }}
+                    </span>
+                </div>
+                <div>
+                    <span class="font-medium text-gray-700">Created:</span>
+                    <span class="text-gray-900">{{ schedule.created_at|date:"M d, Y g:i A" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6">Update Schedule Details</h2>
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Client Selection -->
+                    <div>
+                        <label for="{{ form.client.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.client.label }}
+                        </label>
+                        {{ form.client }}
+                        {% if form.client.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.client.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Status Selection -->
+                    <div>
+                        <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.status.label }}
+                        </label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.status.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Start Date -->
+                    <div>
+                        <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.start_date.label }}
+                        </label>
+                        {{ form.start_date }}
+                        {% if form.start_date.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.start_date.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- End Date -->
+                    <div>
+                        <label for="{{ form.end_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.end_date.label }}
+                        </label>
+                        {{ form.end_date }}
+                        {% if form.end_date.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.end_date.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Start Time -->
+                    <div>
+                        <label for="{{ form.start_time.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.start_time.label }}
+                        </label>
+                        {{ form.start_time }}
+                        {% if form.start_time.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.start_time.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- End Time -->
+                    <div>
+                        <label for="{{ form.end_time.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                            {{ form.end_time.label }}
+                        </label>
+                        {{ form.end_time }}
+                        {% if form.end_time.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.end_time.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div>
+                    <label for="{{ form.notes.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                        {{ form.notes.label }}
+                    </label>
+                    {{ form.notes }}
+                    {% if form.notes.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.notes.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-error">
+                        <div class="flex">
+                            <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">Please correct the following errors:</h3>
+                                <div class="mt-2 text-sm text-red-700">
+                                    {% for error in form.non_field_errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <a href="{% url 'schedules:detail' schedule.pk %}" class="btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-primary">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Update Schedule
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Schedule History (if any) -->
+    {% if schedule.updated_at != schedule.created_at %}
+    <div class="card mt-6">
+        <div class="card-body">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Schedule History</h3>
+            <div class="text-sm text-gray-600">
+                <p><span class="font-medium">Last Updated:</span> {{ schedule.updated_at|date:"M d, Y g:i A" }}</p>
+                {% if schedule.updated_by %}
+                    <p><span class="font-medium">Updated By:</span> {{ schedule.updated_by.get_full_name|default:schedule.updated_by.username }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-calculate duration when times change
+document.addEventListener('DOMContentLoaded', function() {
+    const startTimeInput = document.getElementById('{{ form.start_time.id_for_label }}');
+    const endTimeInput = document.getElementById('{{ form.end_time.id_for_label }}');
+    
+    function calculateDuration() {
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+        
+        if (startTime && endTime) {
+            const start = new Date('2000-01-01T' + startTime);
+            const end = new Date('2000-01-01T' + endTime);
+            
+            if (end > start) {
+                const diffMs = end - start;
+                const diffHours = Math.round(diffMs / (1000 * 60 * 60) * 10) / 10;
+                
+                // You could display this somewhere if needed
+                console.log('Duration:', diffHours, 'hours');
+            }
+        }
+    }
+    
+    startTimeInput.addEventListener('change', calculateDuration);
+    endTimeInput.addEventListener('change', calculateDuration);
+    
+    // Initial calculation
+    calculateDuration();
+});
+
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const startDate = document.getElementById('{{ form.start_date.id_for_label }}').value;
+    const endDate = document.getElementById('{{ form.end_date.id_for_label }}').value;
+    const startTime = document.getElementById('{{ form.start_time.id_for_label }}').value;
+    const endTime = document.getElementById('{{ form.end_time.id_for_label }}').value;
+    
+    if (startDate && endDate && startDate > endDate) {
+        e.preventDefault();
+        alert('End date must be on or after start date.');
+        return false;
+    }
+    
+    if (startTime && endTime && startTime >= endTime) {
+        e.preventDefault();
+        alert('End time must be after start time.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

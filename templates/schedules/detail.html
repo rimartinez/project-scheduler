@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load schedule_filters %}
+
+{% block title %}Schedule Details - Employee-Client Scheduling Service{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-foreground">Schedule Details</h1>
+                <p class="mt-2 text-muted-foreground">View and manage schedule information</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'schedules:list' %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Schedules
+                </a>
+                {% if schedule.status == 'draft' and user.is_employee and schedule.employee == user %}
+                <a href="{% url 'schedules:update' schedule.pk %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 h-9 px-4 py-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Edit Schedule
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Information -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Schedule Details -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Basic Information -->
+            {% include 'cotton/card/index.html' with title='Schedule Information' %}
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Client</label>
+                        <p class="text-foreground font-medium">{{ schedule.client.name }}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Status</label>
+                        <div>
+                            {% include 'cotton/badge/index.html' with variant=schedule.status|status_color slot=schedule.get_status_display %}
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Start Date</label>
+                        <p class="text-foreground">{{ schedule.start_date|date:"F d, Y" }}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">End Date</label>
+                        <p class="text-foreground">{{ schedule.end_date|date:"F d, Y" }}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Start Time</label>
+                        <p class="text-foreground">{{ schedule.start_time|time:"g:i A" }}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">End Time</label>
+                        <p class="text-foreground">{{ schedule.end_time|time:"g:i A" }}</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Duration</label>
+                        <p class="text-foreground">{{ schedule.duration_hours }} hours</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-muted-foreground">Employee</label>
+                        <p class="text-foreground">{{ schedule.employee.get_full_name|default:schedule.employee.username }}</p>
+                    </div>
+                </div>
+                
+                {% if schedule.notes %}
+                <div class="mt-6 space-y-2">
+                    <label class="text-sm font-medium text-muted-foreground">Notes</label>
+                    <div class="p-4 bg-muted rounded-md">
+                        <p class="text-foreground whitespace-pre-wrap">{{ schedule.notes }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if schedule.status == 'rejected' and schedule.rejection_reason %}
+                <div class="mt-6 space-y-2">
+                    <label class="text-sm font-medium text-muted-foreground">Rejection Reason</label>
+                    <div class="p-4 bg-destructive/10 border border-destructive/20 rounded-md">
+                        <p class="text-destructive">{{ schedule.rejection_reason }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% include 'cotton/card/footer.html' %}
+
+            <!-- Actions -->
+            {% if user.is_supervisor and schedule.status == 'submitted' %}
+            {% include 'cotton/card/index.html' with title='Approval Actions' %}
+            <div class="p-6">
+                <div class="flex space-x-4">
+                    <a href="{% url 'schedules:approve' schedule.pk %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 h-9 px-4 py-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Approve Schedule
+                    </a>
+                    <a href="{% url 'schedules:reject' schedule.pk %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 h-9 px-4 py-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Reject Schedule
+                    </a>
+                </div>
+            </div>
+            {% include 'cotton/card/footer.html' %}
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Status Timeline -->
+            {% include 'cotton/card/index.html' with title='Status Timeline' %}
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-medium text-foreground">Created</p>
+                            <p class="text-xs text-muted-foreground">{{ schedule.created_at|date:"M d, Y g:i A" }}</p>
+                        </div>
+                    </div>
+                    
+                    {% if schedule.status != 'draft' %}
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-medium text-foreground">Submitted</p>
+                            <p class="text-xs text-muted-foreground">{{ schedule.updated_at|date:"M d, Y g:i A" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if schedule.status == 'approved' %}
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-medium text-foreground">Approved</p>
+                            <p class="text-xs text-muted-foreground">{{ schedule.updated_at|date:"M d, Y g:i A" }}</p>
+                        </div>
+                    </div>
+                    {% elif schedule.status == 'rejected' %}
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-destructive rounded-full"></div>
+                        <div>
+                            <p class="text-sm font-medium text-foreground">Rejected</p>
+                            <p class="text-xs text-muted-foreground">{{ schedule.updated_at|date:"M d, Y g:i A" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% include 'cotton/card/footer.html' %}
+
+            <!-- Quick Actions -->
+            {% include 'cotton/card/index.html' with title='Quick Actions' %}
+            <div class="p-6">
+                <div class="space-y-3">
+                    <a href="{% url 'schedules:calendar' %}" class="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        View in Calendar
+                    </a>
+                    <a href="{% url 'schedules:table' %}" class="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        View in Table
+                    </a>
+                    {% if user.is_employee and schedule.employee == user %}
+                    <a href="{% url 'schedules:create' %}" class="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 h-9 px-4 py-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create New Schedule
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% include 'cotton/card/footer.html' %}
+
+            <!-- Client Information -->
+            {% include 'cotton/card/index.html' with title='Client Information' %}
+            <div class="p-6">
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-sm font-medium text-muted-foreground">Client Name</label>
+                        <p class="text-foreground font-medium">{{ schedule.client.name }}</p>
+                    </div>
+                    {% if schedule.client.email %}
+                    <div>
+                        <label class="text-sm font-medium text-muted-foreground">Email</label>
+                        <p class="text-foreground">{{ schedule.client.email }}</p>
+                    </div>
+                    {% endif %}
+                    {% if schedule.client.phone %}
+                    <div>
+                        <label class="text-sm font-medium text-muted-foreground">Phone</label>
+                        <p class="text-foreground">{{ schedule.client.phone }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% include 'cotton/card/footer.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Add any interactive functionality here
+document.addEventListener('DOMContentLoaded', function() {
+    // You can add JavaScript for interactive features
+    console.log('Schedule detail page loaded');
+});
+</script>
+{% endblock %}

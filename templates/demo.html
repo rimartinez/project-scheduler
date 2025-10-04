@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load shadcn_ui %}
+
+{% block title %}shadcn/ui Components Demo{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">shadcn/ui Components Demo</h1>
+        <p class="mt-2 text-gray-600">A showcase of all available shadcn/ui components in Django.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Buttons Section -->
+        {% card title="Buttons" content='<div class="space-y-4"><div class="flex flex-wrap gap-4">{% button "Primary Button" variant="primary" %}{% button "Secondary Button" variant="secondary" %}{% button "Destructive Button" variant="destructive" %}{% button "Outline Button" variant="outline" %}{% button "Ghost Button" variant="ghost" %}{% button "Link Button" variant="link" %}</div><div class="flex flex-wrap gap-4">{% button "Small Button" variant="primary" size="sm" %}{% button "Default Button" variant="primary" size="default" %}{% button "Large Button" variant="primary" size="lg" %}</div><div class="flex flex-wrap gap-4">{% button "With Icon" variant="primary" icon="plus" %}{% button "Save" variant="secondary" icon="save" %}{% button "Edit" variant="outline" icon="edit" %}{% button "Delete" variant="destructive" icon="trash" %}</div></div>' %}
+
+        <!-- Cards Section -->
+        {% card title="Cards" content='<div class="space-y-4"><div class="grid grid-cols-1 md:grid-cols-2 gap-4">{% card title="Simple Card" description="This is a simple card with title and description" content="<p>This is the card content area where you can put any content.</p>" %}{% card title="Card with Footer" content="<p>This card has a footer section.</p>" footer="<div class=\"flex justify-end space-x-2\">{% button \"Cancel\" variant=\"outline\" size=\"sm\" %}{% button \"Save\" variant=\"primary\" size=\"sm\" %}</div>" %}</div></div>' %}
+
+        <!-- Forms Section -->
+        {% card title="Form Elements" content='<div class="space-y-6"><div class="grid grid-cols-1 md:grid-cols-2 gap-4">{% input_field "name" label="Full Name" placeholder="Enter your name" required=True %}{% input_field "email" label="Email" type="email" placeholder="Enter your email" required=True %}</div><div class="grid grid-cols-1 md:grid-cols-2 gap-4">{% input_field "phone" label="Phone" type="tel" placeholder="Enter your phone" %}{% input_field "date" label="Date" type="date" %}</div><div>{% input_field "message" label="Message" type="textarea" placeholder="Enter your message" %}</div></div>' %}
+
+        <!-- Badges Section -->
+        {% card title="Badges" content='<div class="space-y-4"><div class="flex flex-wrap gap-2">{% badge "Default" variant="default" %}{% badge "Secondary" variant="secondary" %}{% badge "Destructive" variant="destructive" %}{% badge "Outline" variant="outline" %}</div><div class="flex flex-wrap gap-2">{% badge "Draft" variant="default" %}{% badge "Submitted" variant="secondary" %}{% badge "Approved" variant="default" %}{% badge "Rejected" variant="destructive" %}</div></div>' %}
+
+        <!-- Table Section -->
+        {% card title="Table" content='{% table headers="Name,Email,Role,Status" rows="[[\"John Doe\",\"john@example.com\",\"Employee\",\"Active\"],[\"Jane Smith\",\"jane@example.com\",\"Supervisor\",\"Active\"],[\"Bob Johnson\",\"bob@example.com\",\"Client\",\"Inactive\"]]" %}' %}
+
+        <!-- Alerts Section -->
+        {% card title="Alerts" content='<div class="space-y-4">{% alert title="Default Alert" description="This is a default alert message." variant="default" %}{% alert title="Success Alert" description="This is a success alert message." variant="default" %}{% alert title="Warning Alert" description="This is a warning alert message." variant="destructive" %}{% alert title="Error Alert" description="This is an error alert message." variant="destructive" %}</div>' %}
+
+        <!-- Navigation Section -->
+        {% card title="Navigation" content='<div class="space-y-2">{% nav_link "Dashboard" "#" active=True %}{% nav_link "Schedules" "#" %}{% nav_link "Reports" "#" %}{% nav_link "Settings" "#" %}</div>' %}
+    </div>
+
+    <!-- Schedule Status Examples -->
+    <div class="mt-8">
+        {% card title="Schedule Status Examples" content='<div class="space-y-4"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"><div class="p-4 border rounded-lg"><h4 class="font-medium mb-2">Draft</h4><p class="text-sm text-gray-600 mb-3">Schedule is being created</p>{% badge "Draft" variant="default" %}</div><div class="p-4 border rounded-lg"><h4 class="font-medium mb-2">Submitted</h4><p class="text-sm text-gray-600 mb-3">Waiting for approval</p>{% badge "Submitted" variant="secondary" %}</div><div class="p-4 border rounded-lg"><h4 class="font-medium mb-2">Approved</h4><p class="text-sm text-gray-600 mb-3">Schedule is approved</p>{% badge "Approved" variant="default" %}</div><div class="p-4 border rounded-lg"><h4 class="font-medium mb-2">Rejected</h4><p class="text-sm text-gray-600 mb-3">Schedule was rejected</p>{% badge "Rejected" variant="destructive" %}</div></div></div>' %}
+    </div>
+</div>
+{% endblock %}

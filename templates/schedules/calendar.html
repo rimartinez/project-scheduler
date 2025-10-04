@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load schedule_filters %}
+
+{% block title %}Schedule Calendar - Employee-Client Scheduling Service{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Schedule Calendar</h1>
+                <p class="mt-2 text-gray-600">View and manage your schedules</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'schedules:table' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                    </svg>
+                    Table View
+                </a>
+                {% if user.is_employee %}
+                <a href="{% url 'schedules:create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Create Schedule
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Container -->
+    <div id="calendar-body">
+        <!-- Calendar Navigation -->
+        <div class="card mb-6">
+            <div class="card-body">
+                <div class="flex items-center justify-between">
+                    <h2 id="month-name" class="text-xl font-semibold text-gray-900">{{ month_name }}</h2>
+                    <div class="flex space-x-2">
+                        <button hx-get="{% url 'schedules:calendar_month' year=current_year|add:-1 month=current_month %}" 
+                                hx-target="#calendar-body"
+                                hx-trigger="click"
+                                hx-swap="outerHTML"
+                                class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button hx-get="{% url 'schedules:calendar_month' year=current_year|add:1 month=current_month %}" 
+                                hx-target="#calendar-body"
+                                hx-trigger="click"
+                                hx-swap="outerHTML"
+                                class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="card">
+        <div class="card-body p-0">
+            <!-- Day headers -->
+            <div class="grid grid-cols-7 border-b border-gray-200">
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Sunday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Monday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Tuesday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Wednesday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Thursday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50 border-r border-gray-200">Friday</div>
+                <div class="p-4 text-center text-sm font-semibold text-gray-700 bg-gray-50">Saturday</div>
+            </div>
+            
+            <!-- Calendar days -->
+            <div class="grid grid-cols-7 min-h-[600px]">
+                {% for day in calendar_days %}
+                <div class="calendar-day border-r border-b border-gray-200 min-h-[120px] p-3 {% if day.is_today %}bg-blue-50 border-blue-200{% endif %} {% if day.is_other_month %}bg-gray-50 text-gray-400{% endif %}">
+                    {% if day.day %}
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-lg font-semibold {% if day.is_today %}text-blue-600{% else %}text-gray-900{% endif %}">
+                            {{ day.day }}
+                        </div>
+                        {% if day.schedules|length > 0 %}
+                        <div class="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+                            {{ day.schedules|length }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="space-y-1 max-h-[80px] overflow-y-auto">
+                        {% for schedule in day.schedules %}
+                        <div class="calendar-event bg-{{ schedule.status|status_color }}-100 text-{{ schedule.status|status_color }}-800 text-xs p-2 rounded-md border border-{{ schedule.status|status_color }}-200 hover:shadow-sm transition-shadow cursor-pointer" 
+                             data-schedule-id="{{ schedule.id }}">
+                            <div class="font-medium truncate mb-1">
+                                {% if user.is_employee %}
+                                    {{ schedule.client.name }}
+                                {% elif user.is_client %}
+                                    {{ schedule.employee.get_full_name }}
+                                {% else %}
+                                    {{ schedule.employee.get_full_name }}
+                                {% endif %}
+                            </div>
+                            <div class="text-xs opacity-75">
+                                {{ schedule.start_time|time:"g:i A" }} - {{ schedule.end_time|time:"g:i A" }}
+                            </div>
+                            {% if user.is_supervisor %}
+                            <div class="text-xs opacity-60 mt-1">
+                                {{ schedule.client.name }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Empty day cell -->
+                    <div class="h-full flex items-center justify-center">
+                        <span class="text-gray-300 text-sm">-</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Calendar functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to add click handlers for calendar events
+    function addCalendarEventHandlers() {
+        document.querySelectorAll('.calendar-event').forEach(function(event) {
+            event.addEventListener('click', function() {
+                // Get schedule ID from data attribute
+                const scheduleId = this.dataset.scheduleId;
+                if (scheduleId) {
+                    window.location.href = '/schedules/' + scheduleId + '/';
+                }
+            });
+        });
+    }
+    
+    // Add handlers for initial calendar events
+    addCalendarEventHandlers();
+    
+    // Listen for HTMX content updates and re-add handlers
+    document.addEventListener('htmx:afterSwap', function(event) {
+        if (event.target.id === 'calendar-body') {
+            addCalendarEventHandlers();
+        }
+    });
+});
+</script>
+{% endblock %}

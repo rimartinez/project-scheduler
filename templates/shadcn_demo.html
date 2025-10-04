@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}shadcn-django Components Demo{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-foreground">shadcn-django Components Demo</h1>
+        <p class="mt-2 text-muted-foreground">A showcase of shadcn-django components in your scheduling application.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Buttons Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Buttons</h2>
+            <div class="space-y-4">
+                <div class="flex flex-wrap gap-2">
+                    {% include 'cotton/button/index.html' with variant='default' size='default' slot='Primary Button' %}
+                    {% include 'cotton/button/index.html' with variant='secondary' size='default' slot='Secondary Button' %}
+                    {% include 'cotton/button/index.html' with variant='destructive' size='default' slot='Destructive Button' %}
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    {% include 'cotton/button/index.html' with variant='outline' size='default' slot='Outline Button' %}
+                    {% include 'cotton/button/index.html' with variant='ghost' size='default' slot='Ghost Button' %}
+                    {% include 'cotton/button/index.html' with variant='link' size='default' slot='Link Button' %}
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    {% include 'cotton/button/index.html' with variant='default' size='sm' slot='Small' %}
+                    {% include 'cotton/button/index.html' with variant='default' size='default' slot='Default' %}
+                    {% include 'cotton/button/index.html' with variant='default' size='lg' slot='Large' %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Cards</h2>
+            <div class="space-y-4">
+                {% include 'cotton/card/index.html' with title='Simple Card' description='This is a simple card with title and description' slot='<p class="text-muted-foreground">This is the card content area where you can put any content.</p>' %}
+                
+                {% include 'cotton/card/index.html' with title='Card with Footer' slot='<p class="text-muted-foreground">This card has a footer section.</p>' %}
+                <div class="flex justify-end space-x-2">
+                    {% include 'cotton/button/index.html' with variant='outline' size='sm' slot='Cancel' %}
+                    {% include 'cotton/button/index.html' with variant='default' size='sm' slot='Save' %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Elements Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Form Elements</h2>
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-foreground">Full Name</label>
+                        {% include 'cotton/input/index.html' with placeholder='Enter your name' %}
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-foreground">Email</label>
+                        {% include 'cotton/input/index.html' with type='email' placeholder='Enter your email' %}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-foreground">Phone</label>
+                        {% include 'cotton/input/index.html' with type='tel' placeholder='Enter your phone' %}
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-foreground">Date</label>
+                        {% include 'cotton/input/index.html' with type='date' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badges Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Badges</h2>
+            <div class="space-y-4">
+                <div class="flex flex-wrap gap-2">
+                    {% include 'cotton/badge/index.html' with variant='default' slot='Default' %}
+                    {% include 'cotton/badge/index.html' with variant='secondary' slot='Secondary' %}
+                    {% include 'cotton/badge/index.html' with variant='destructive' slot='Destructive' %}
+                    {% include 'cotton/badge/index.html' with variant='outline' slot='Outline' %}
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    {% include 'cotton/badge/index.html' with variant='default' slot='Draft' %}
+                    {% include 'cotton/badge/index.html' with variant='secondary' slot='Submitted' %}
+                    {% include 'cotton/badge/index.html' with variant='default' slot='Approved' %}
+                    {% include 'cotton/badge/index.html' with variant='destructive' slot='Rejected' %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Table</h2>
+            <div class="rounded-md border">
+                {% include 'cotton/table/index.html' %}
+                <div class="p-4">
+                    <div class="grid grid-cols-4 gap-4 text-sm font-medium text-muted-foreground">
+                        <div>Name</div>
+                        <div>Email</div>
+                        <div>Role</div>
+                        <div>Status</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4 py-2 text-sm">
+                        <div>John Doe</div>
+                        <div>john@example.com</div>
+                        <div>Employee</div>
+                        <div>{% include 'cotton/badge/index.html' with variant='default' slot='Active' %}</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4 py-2 text-sm">
+                        <div>Jane Smith</div>
+                        <div>jane@example.com</div>
+                        <div>Supervisor</div>
+                        <div>{% include 'cotton/badge/index.html' with variant='default' slot='Active' %}</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4 py-2 text-sm">
+                        <div>Bob Johnson</div>
+                        <div>bob@example.com</div>
+                        <div>Client</div>
+                        <div>{% include 'cotton/badge/index.html' with variant='secondary' slot='Inactive' %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-foreground">Alerts</h2>
+            <div class="space-y-4">
+                {% include 'cotton/alert/index.html' with title='Default Alert' description='This is a default alert message.' %}
+                {% include 'cotton/alert/index.html' with title='Success Alert' description='This is a success alert message.' %}
+                {% include 'cotton/alert/index.html' with title='Warning Alert' description='This is a warning alert message.' %}
+                {% include 'cotton/alert/index.html' with title='Error Alert' description='This is an error alert message.' %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Status Examples -->
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold text-foreground mb-4">Schedule Status Examples</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-4 border rounded-lg">
+                <h4 class="font-medium mb-2">Draft</h4>
+                <p class="text-sm text-muted-foreground mb-3">Schedule is being created</p>
+                {% include 'cotton/badge/index.html' with variant='default' slot='Draft' %}
+            </div>
+            <div class="p-4 border rounded-lg">
+                <h4 class="font-medium mb-2">Submitted</h4>
+                <p class="text-sm text-muted-foreground mb-3">Waiting for approval</p>
+                {% include 'cotton/badge/index.html' with variant='secondary' slot='Submitted' %}
+            </div>
+            <div class="p-4 border rounded-lg">
+                <h4 class="font-medium mb-2">Approved</h4>
+                <p class="text-sm text-muted-foreground mb-3">Schedule is approved</p>
+                {% include 'cotton/badge/index.html' with variant='default' slot='Approved' %}
+            </div>
+            <div class="p-4 border rounded-lg">
+                <h4 class="font-medium mb-2">Rejected</h4>
+                <p class="text-sm text-muted-foreground mb-3">Schedule was rejected</p>
+                {% include 'cotton/badge/index.html' with variant='destructive' slot='Rejected' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

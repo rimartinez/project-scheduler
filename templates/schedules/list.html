@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load schedule_filters %}
+
+{% block title %}Schedules - Employee-Client Scheduling Service{% endblock %}
+{% block page_title %}Schedules{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">My Schedules</h2>
+                <p class="mt-2 text-gray-600">View and manage your schedules</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{% url 'schedules:calendar' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Calendar View
+                </a>
+                <a href="{% url 'schedules:table' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                    </svg>
+                    Table View
+                </a>
+                {% if user.is_employee %}
+                <a href="{% url 'schedules:create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Create Schedule
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow border border-gray-200 mb-6">
+        <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Filter Schedules</h2>
+            <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select id="status" name="status" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="">All Statuses</option>
+                        <option value="draft" {% if request.GET.status == 'draft' %}selected{% endif %}>Draft</option>
+                        <option value="submitted" {% if request.GET.status == 'submitted' %}selected{% endif %}>Submitted</option>
+                        <option value="approved" {% if request.GET.status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                        <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+                        <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="client" class="block text-sm font-medium text-gray-700 mb-1">Client</label>
+                    <select id="client" name="client" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="">All Clients</option>
+                        {% for client in clients %}
+                        <option value="{{ client.id }}" {% if request.GET.client == client.id|stringformat:"s" %}selected{% endif %}>
+                            {{ client.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" 
+                           value="{{ request.GET.start_date|default:'' }}"
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="inline-flex items-center justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Apply Filters
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Schedules List -->
+    <div class="bg-white rounded-lg shadow border border-gray-200">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Schedules</h3>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-500">{{ schedules|length }} schedule{{ schedules|length|pluralize }}</span>
+                    <button onclick="exportSchedules()" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Export
+                    </button>
+                </div>
+            </div>
+            
+            {% if schedules %}
+            <div class="space-y-4">
+                {% for schedule in schedules %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <h4 class="text-lg font-semibold text-gray-900">
+                                    {{ schedule.client.name }}
+                                </h4>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ schedule.status|status_color }}-100 text-{{ schedule.status|status_color }}-800">
+                                    {{ schedule.get_status_display }}
+                                </span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                                <div>
+                                    <span class="font-medium">Date:</span>
+                                    {{ schedule.start_date|date:"M d, Y" }}
+                                    {% if schedule.start_date != schedule.end_date %}
+                                        - {{ schedule.end_date|date:"M d, Y" }}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <span class="font-medium">Time:</span>
+                                    {{ schedule.start_time|time:"g:i A" }} - {{ schedule.end_time|time:"g:i A" }}
+                                </div>
+                                <div>
+                                    <span class="font-medium">Duration:</span>
+                                    {{ schedule.duration_hours }}h
+                                </div>
+                            </div>
+                            
+                            {% if schedule.notes %}
+                            <div class="mt-2 text-sm text-gray-600">
+                                <span class="font-medium">Notes:</span>
+                                {{ schedule.notes|truncatechars:100 }}
+                            </div>
+                            {% endif %}
+                            
+                            {% if schedule.status == 'rejected' and schedule.rejection_reason %}
+                            <div class="mt-2 text-sm text-red-600">
+                                <span class="font-medium">Rejection Reason:</span>
+                                {{ schedule.rejection_reason }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex items-center space-x-2 ml-4">
+                            <a href="{% url 'schedules:detail' schedule.pk %}" 
+                               class="text-blue-600 hover:text-blue-900 text-sm font-medium">
+                                View
+                            </a>
+                            {% if schedule.status == 'draft' and user.is_employee and schedule.employee == user %}
+                            <a href="{% url 'schedules:update' schedule.pk %}" 
+                               class="text-blue-600 hover:text-blue-900 text-sm font-medium">
+                                Edit
+                            </a>
+                            {% endif %}
+                            {% if schedule.status == 'submitted' and user.is_supervisor %}
+                            <a href="{% url 'schedules:approve' schedule.pk %}" 
+                               class="text-green-600 hover:text-green-900 text-sm font-medium">
+                                Approve
+                            </a>
+                            <a href="{% url 'schedules:reject' schedule.pk %}" 
+                               class="text-red-600 hover:text-red-900 text-sm font-medium">
+                                Reject
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center text-gray-500 py-8">
+                <div class="flex flex-col items-center">
+                    <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-lg font-medium text-gray-900 mb-2">No schedules found</p>
+                    <p class="text-gray-500">Try adjusting your filters or create a new schedule.</p>
+                    {% if user.is_employee %}
+                    <a href="{% url 'schedules:create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-4">
+                        Create Schedule
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function exportSchedules() {
+    // Get current filter parameters
+    const params = new URLSearchParams(window.location.search);
+    
+    // Add export parameter
+    params.set('export', 'csv');
+    
+    // Create download link
+    const exportUrl = window.location.pathname + '?' + params.toString();
+    window.open(exportUrl, '_blank');
+}
+
+// Auto-refresh data every 30 seconds
+setInterval(function() {
+    // You can add HTMX refresh here if needed
+}, 30000);
+</script>
+{% endblock %}

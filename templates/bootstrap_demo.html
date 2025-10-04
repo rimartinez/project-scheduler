@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bootstrap Demo - Employee-Client Scheduling Service{% endblock %}
+{% block page_title %}Bootstrap Demo{% endblock %}
+
+{% block extra_css %}
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Introduction -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title h2 mb-3">Bootstrap 5 Framework</h2>
+                    <p class="card-text text-muted mb-4">
+                        Bootstrap is a popular CSS framework that provides pre-built components and utilities 
+                        for rapid web development. It's mature, stable, and has excellent documentation.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="https://getbootstrap.com" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-up-right me-2"></i>
+                            Bootstrap Docs
+                        </a>
+                        <a href="{% url 'tailwind_demo' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-right me-2"></i>
+                            Compare with Tailwind CSS
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Buttons</h3>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button type="button" class="btn btn-primary">Primary</button>
+                        <button type="button" class="btn btn-secondary">Secondary</button>
+                        <button type="button" class="btn btn-success">Success</button>
+                        <button type="button" class="btn btn-danger">Danger</button>
+                        <button type="button" class="btn btn-warning">Warning</button>
+                        <button type="button" class="btn btn-info">Info</button>
+                        <button type="button" class="btn btn-light">Light</button>
+                        <button type="button" class="btn btn-dark">Dark</button>
+                        <button type="button" class="btn btn-outline-primary">Outline Primary</button>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-primary btn-sm">Small</button>
+                        <button type="button" class="btn btn-primary">Default</button>
+                        <button type="button" class="btn btn-primary btn-lg">Large</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Cards</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-1">Basic Card</h5>
+                                    <p class="card-text small text-muted">A simple card with header and content</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">This is the card content area where you can place any content.</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary btn-sm">Action</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Simple Card</h5>
+                                    <p class="card-text">A card without header and footer sections.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-danger">
+                                <div class="card-header bg-danger text-white">
+                                    <h5 class="card-title mb-0">Error Card</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">This card has a red border to indicate an error state.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forms -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Form Elements</h3>
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role">
+                                <option selected>Select a role</option>
+                                <option value="employee">Employee</option>
+                                <option value="supervisor">Supervisor</option>
+                                <option value="client">Client</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="4" placeholder="Enter your message"></textarea>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terms">
+                            <label class="form-check-label" for="terms">
+                                I agree to the terms and conditions
+                            </label>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Notification Preference</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="notification" id="emailNotif" value="email">
+                                <label class="form-check-label" for="emailNotif">
+                                    Email notifications
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="notification" id="smsNotif" value="sms">
+                                <label class="form-check-label" for="smsNotif">
+                                    SMS notifications
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Alerts</h3>
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <div>
+                            <h6 class="alert-heading mb-1">Success!</h6>
+                            <p class="mb-0">Your schedule has been created successfully.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>
+                            <h6 class="alert-heading mb-1">Warning</h6>
+                            <p class="mb-0">Please review your schedule before submitting.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+                        <div>
+                            <h6 class="alert-heading mb-1">Error</h6>
+                            <p class="mb-0">There was an error processing your request.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Badges</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">Primary</span>
+                        <span class="badge bg-secondary">Secondary</span>
+                        <span class="badge bg-success">Success</span>
+                        <span class="badge bg-danger">Danger</span>
+                        <span class="badge bg-warning text-dark">Warning</span>
+                        <span class="badge bg-info">Info</span>
+                        <span class="badge bg-light text-dark">Light</span>
+                        <span class="badge bg-dark">Dark</span>
+                        <span class="badge rounded-pill bg-primary">Pill</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tables -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Tables</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>Employee</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-secondary">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>Supervisor</td>
+                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-secondary">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bob Johnson</td>
+                                    <td>Client</td>
+                                    <td><span class="badge bg-danger">Inactive</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-secondary">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modals -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">Modals</h3>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch Demo Modal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Comparison -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title h4 mb-4">UI Framework Comparison</h3>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <h5 class="h6">Bootstrap</h5>
+                            <ul class="list-unstyled small">
+                                <li>✅ Mature and stable</li>
+                                <li>✅ Extensive documentation</li>
+                                <li>✅ Large community</li>
+                                <li>✅ Many components</li>
+                                <li>✅ Easy to learn</li>
+                                <li>✅ Good for rapid prototyping</li>
+                                <li>❌ Larger bundle size</li>
+                                <li>❌ Less customizable</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h5 class="h6">Tailwind CSS</h5>
+                            <ul class="list-unstyled small">
+                                <li>✅ Utility-first approach</li>
+                                <li>✅ Highly customizable</li>
+                                <li>✅ Small bundle size</li>
+                                <li>✅ No JavaScript required</li>
+                                <li>✅ Excellent performance</li>
+                                <li>✅ Great for custom designs</li>
+                                <li>❌ Steep learning curve</li>
+                                <li>❌ Verbose HTML</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h5 class="h6">Basecoat UI</h5>
+                            <ul class="list-unstyled small">
+                                <li>✅ CSS-only components</li>
+                                <li>✅ Clean markup</li>
+                                <li>✅ Django-friendly</li>
+                                <li>✅ Lightweight</li>
+                                <li>✅ Easy to use</li>
+                                <li>✅ Accessible</li>
+                                <li>❌ Limited customization</li>
+                                <li>❌ Fewer components</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <h5 class="h6">shadcn-django</h5>
+                            <ul class="list-unstyled small">
+                                <li>✅ Copy-paste components</li>
+                                <li>✅ Highly customizable</li>
+                                <li>✅ Modern design</li>
+                                <li>✅ Alpine.js integration</li>
+                                <li>✅ Component variants</li>
+                                <li>✅ Active community</li>
+                                <li>❌ Requires JavaScript</li>
+                                <li>❌ More complex setup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Demo Modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>This is a Bootstrap modal dialog. It demonstrates the modal component functionality.</p>
+                <form>
+                    <div class="mb-3">
+                        <label for="modalInput" class="form-label">Example input</label>
+                        <input type="text" class="form-control" id="modalInput" placeholder="Enter something...">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}

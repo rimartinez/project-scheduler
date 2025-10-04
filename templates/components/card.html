@@ -1,0 +1,25 @@
+<!-- shadcn/ui Card Component -->
+<div class="card {{ class }}">
+    {% if title or description %}
+    <div class="card-header">
+        {% if title %}
+        <h3 class="card-title">{{ title }}</h3>
+        {% endif %}
+        {% if description %}
+        <p class="card-description">{{ description }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% if content %}
+    <div class="card-content">
+        {{ content|safe }}
+    </div>
+    {% endif %}
+    
+    {% if footer %}
+    <div class="card-footer">
+        {{ footer|safe }}
+    </div>
+    {% endif %}
+</div>

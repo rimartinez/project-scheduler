@@ -1,0 +1,26 @@
+<!-- shadcn/ui Table Component -->
+<div class="table-container">
+    <table class="table {{ class }}">
+        {% if headers %}
+        <thead class="table-header">
+            <tr class="table-row">
+                {% for header in headers %}
+                <th class="table-head">{{ header }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        {% endif %}
+        
+        {% if rows %}
+        <tbody class="table-body">
+            {% for row in rows %}
+            <tr class="table-row">
+                {% for cell in row %}
+                <td class="table-cell">{{ cell|safe }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>

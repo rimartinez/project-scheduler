@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load schedule_filters %}
+
+{% block title %}{{ month_name }} - Calendar{% endblock %}
+{% block page_title %}{{ month_name }}{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-foreground">{{ month_name }}</h2>
+        <div class="flex items-center space-x-2">
+            <a href="{% url 'schedules:calendar' %}?year={{ current_year|add:'-1' }}&month={{ current_month }}" 
+               class="btn-secondary">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous Year
+            </a>
+            <a href="{% url 'schedules:calendar' %}?year={{ current_year }}&month={{ current_month|add:'-1' }}" 
+               class="btn-secondary">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous Month
+            </a>
+            <a href="{% url 'schedules:calendar' %}" class="btn-primary">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Current Month
+            </a>
+            <a href="{% url 'schedules:calendar' %}?year={{ current_year }}&month={{ current_month|add:'1' }}" 
+               class="btn-secondary">
+                Next Month
+                <svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+            <a href="{% url 'schedules:calendar' %}?year={{ current_year|add:'1' }}&month={{ current_month }}" 
+               class="btn-secondary">
+                Next Year
+                <svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Calendar Grid -->
+<div class="bg-card rounded-lg border border-border overflow-hidden">
+    <!-- Calendar Header -->
+    <div class="grid grid-cols-7 bg-muted">
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Sunday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Monday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Tuesday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Wednesday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Thursday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Friday</div>
+        <div class="p-3 text-center text-sm font-medium text-muted-foreground">Saturday</div>
+    </div>
+    
+    <!-- Calendar Days -->
+    <div class="grid grid-cols-7 gap-px bg-border">
+        {% for day in calendar_days %}
+        <div class="min-h-[120px] p-2 bg-card hover:bg-accent transition-colors duration-200 {% if day.is_today %}ring-2 ring-primary bg-primary/5{% endif %}">
+            {% if day.day %}
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-foreground">{{ day.day }}</span>
+                {% if day.schedules_count > 0 %}
+                <span class="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-muted-foreground bg-muted rounded-full">
+                    {{ day.schedules_count }}
+                </span>
+                {% endif %}
+            </div>
+            
+            <!-- Schedule Events -->
+            <div class="space-y-1">
+                {% for schedule in day.schedules %}
+                <div class="text-xs p-1 rounded cursor-pointer bg-{{ schedule.status|status_color }}-100 text-{{ schedule.status|status_color }}-700 border border-{{ schedule.status|status_color }}-300 hover:bg-{{ schedule.status|status_color }}-200 transition-colors"
+                     onclick="window.location.href='{% url 'schedules:detail' schedule.id %}'"
+                     title="{{ schedule.client.name }} - {{ schedule.start_time|time:'g:i A' }}">
+                    <div class="truncate font-medium">{{ schedule.client.name }}</div>
+                    <div class="truncate text-xs opacity-75">{{ schedule.start_time|time:'g:i A' }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center text-muted-foreground text-sm">-</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Schedule Summary -->
+{% if schedules %}
+<div class="mt-6">
+    <h3 class="text-lg font-semibold text-foreground mb-4">Schedules for {{ month_name }}</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for schedule in schedules %}
+        <div class="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <h4 class="font-medium text-foreground">{{ schedule.client.name }}</h4>
+                    <p class="text-sm text-muted-foreground">{{ schedule.start_date|date:"M d, Y" }}</p>
+                    <p class="text-sm text-muted-foreground">{{ schedule.start_time|time:"g:i A" }} - {{ schedule.end_time|time:"g:i A" }}</p>
+                </div>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-{{ schedule.status|status_color }}-100 text-{{ schedule.status|status_color }}-800">
+                    {{ schedule.get_status_display }}
+                </span>
+            </div>
+            {% if schedule.notes %}
+            <p class="mt-2 text-sm text-muted-foreground">{{ schedule.notes|truncatechars:100 }}</p>
+            {% endif %}
+            <div class="mt-3 flex space-x-2">
+                <a href="{% url 'schedules:detail' schedule.id %}" class="text-xs text-primary hover:text-primary-600">
+                    View Details
+                </a>
+                {% if user.is_employee or user.is_supervisor %}
+                <a href="{% url 'schedules:update' schedule.id %}" class="text-xs text-muted-foreground hover:text-foreground">
+                    Edit
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="mt-6 text-center py-8">
+    <svg class="mx-auto h-12 w-12 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-foreground">No schedules for {{ month_name }}</h3>
+    <p class="mt-1 text-sm text-muted-foreground">Get started by creating a new schedule.</p>
+    {% if user.is_employee %}
+    <div class="mt-4">
+        <a href="{% url 'schedules:create' %}" class="btn-primary">
+            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Create Schedule
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
